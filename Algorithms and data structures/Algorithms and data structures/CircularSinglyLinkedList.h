@@ -191,8 +191,20 @@ bool CircularSinglyLinkedList<T>::append(T value, unsigned int index)
 	if (index == size)
 		return append(value);
 
-	Node* item = new Node(value);
 	Node* temp = root;
+	Node* item = new Node(value);
+	if (index == 0)
+	{
+		item->next = root;
+		for (int i = 0; i < size-1; i++)
+		{
+			temp = temp->next;
+		}
+		temp->next = item;
+		root = item;
+		size++;
+		return true;
+	}
 	for (int i = 0; i < index - 1; i++)
 	{
 		temp = temp->next;
