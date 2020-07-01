@@ -81,9 +81,6 @@ public:
 
 };
 
-
-#include "CircularSinglyLinkedList.h"
-
 template<class T>
 CircularSinglyLinkedList<T>::CircularSinglyLinkedList()
 {
