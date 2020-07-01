@@ -36,26 +36,48 @@ public:
 	bool eraseValue(T value);
 	bool erase(unsigned int index);
 
-	// TODO: make Iterator
-	//class Iterator
-	//{
-	//private:
-	//	Node* cur;
-	//public:
-	//	Iterator(Node*);
-	//	T operator++();
-	//	T operator--();
-	//	bool operator==();
-	//	bool operator!=();
-	//};
+	class Iterator
+	{
+	private:
+		Node* cur;
+	public:
+		Iterator(Node* node)
+		{
+			cur = node;
+		}
 
-	//Iterator::Iterator(Node* node)
-	//{
-	//	cur = node;
-	//}
+		T operator++(int)
+		{
+			T val = cur->item;
+			cur = cur->next;
+			return val;
+		}
+		T operator*()
+		{
+			return cur->item;
+		}
 
-	//Iterator begin();
-	//Iterator end();
+
+		bool operator==(Iterator it)
+		{
+			return cur->item == *it;
+		}
+		bool operator!=(Iterator it)
+		{
+			return cur->item != *it;
+		}
+	};
+
+	
+
+	Iterator begin()
+	{
+		return Iterator(root);
+	}
+	Iterator end()
+	{
+		return Iterator(root);
+	}
 
 };
 
