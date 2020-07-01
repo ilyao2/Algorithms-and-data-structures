@@ -15,6 +15,7 @@ protected:
 	Node::Node(T item)
 	{
 		this->item = item;
+		next = nullptr;
 	}
 
 	Node::~Node()
@@ -24,9 +25,7 @@ protected:
 	}
 private:
 	int size;
-	bool isEmpty;
 	Node* root;
-	Node* current;
 public:
 	CircularSinglyLinkedList();
 	CircularSinglyLinkedList(const CircularSinglyLinkedList<T>&);
@@ -34,13 +33,13 @@ public:
 	int getSize();
 	bool clear();
 	bool isEmpty();
-	bool contains();
-	T& operator[](int index);
+	bool contains(T value);
+	T& operator[](unsigned int index);
 	int getIndex(T value);
-	bool append();
-	bool append(int index);
-	bool erase(T value);
-	bool erase(int index);
+	bool append(T value);
+	bool append(T value, unsigned int index);
+	bool eraseValue(T value);
+	bool erase(unsigned int index);
 
 	class Iterator
 	{
