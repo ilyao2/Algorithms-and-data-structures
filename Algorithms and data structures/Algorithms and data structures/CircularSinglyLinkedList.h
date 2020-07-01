@@ -113,10 +113,8 @@ int CircularSinglyLinkedList<T>::getSize()
 template<class T>
 bool CircularSinglyLinkedList<T>::clear()
 {
-	for (int i = 0; i < size; i++)
-	{
+	while(size != 0)
 		erase(0);
-	}
 	return true;
 }
 
