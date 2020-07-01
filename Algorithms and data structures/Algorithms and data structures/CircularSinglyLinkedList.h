@@ -126,7 +126,7 @@ T& CircularSinglyLinkedList<T>::operator[](unsigned int index)
 	if (index >= size)
 		throw("Out of size");
 	Node* temp = root;
-	for (int i = 0; i < size; i++)
+	for (int i = 0; i < index; i++)
 		temp = temp->next;
 	return temp->item;
 }
@@ -155,7 +155,7 @@ bool CircularSinglyLinkedList<T>::append(T value)
 	}
 	item->next = root;
 	Node* temp = root;
-	for (int i = 0; i < size; i++)
+	for (int i = 0; i < size-1; i++)
 	{
 		temp = temp->next;
 	}
@@ -233,9 +233,9 @@ bool CircularSinglyLinkedList<T>::erase(unsigned int index)
 	}
 
 
-	if (index = 0)
+	if (index == 0)
 	{
-		for (int i = 0; i < size; i++)
+		for (int i = 0; i < size-1; i++)
 		{
 			temp = temp->next;
 		}
@@ -250,7 +250,8 @@ bool CircularSinglyLinkedList<T>::erase(unsigned int index)
 
 	Node* dItem = temp->next;
 	temp->next = dItem->next;
-	root = dItem->next;
+	if (index == 0)
+		root = dItem->next;
 	delete dItem;
 	dItem = nullptr;
 	size--;
