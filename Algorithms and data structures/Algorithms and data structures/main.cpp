@@ -47,7 +47,9 @@ int main()
 					system("cls");
 					cout << "input value: ";
 					cin >> val;
-					list.append(val);
+					system("cls");
+					cout << list.append(val);
+					system("pause");
 					break;
 				case 2:
 					system("cls");
@@ -55,22 +57,30 @@ int main()
 					cin >> val;
 					cout << "input index: ";
 					cin >> index;
-					list.append(val, index);
+					system("cls");
+					cout << list.append(val, index);
+					system("pause");
 					break;
 				case 3:
 					system("cls");
 					cout << "input value: ";
 					cin >> val;
-					list.eraseValue(val);
+					system("cls");
+					cout << list.eraseValue(val);
+					system("pause");
 					break;
 				case 4:
 					system("cls");
 					cout << "input index: ";
 					cin >> index;
-					list.erase(index);
+					system("cls");
+					cout << list.erase(index);
+					system("pause");
 					break;
 				case 5:
-					list.clear();
+					system("cls");
+					cout << list.clear();
+					system("pause");
 					break;
 				case 6:
 					system("cls");
@@ -83,7 +93,14 @@ int main()
 					cout << "input index: ";
 					cin >> index;
 					system("cls");
-					cout << list[index] << endl;
+					try
+					{
+						cout << list[index] << endl;
+					}
+					catch (const std::exception&)
+					{
+						cout << "Bad index";
+					}
 					system("pause");
 					break;
 				case 8:
@@ -92,7 +109,14 @@ int main()
 					cin >> val;
 					cout << "input index: ";
 					cin >> index;
-					list[index] = val;
+					try
+					{
+						list[index] = val;
+					}
+					catch (const std::exception&)
+					{
+						cout << "Bad index";
+					}
 					break;
 				case 9:
 					system("cls");

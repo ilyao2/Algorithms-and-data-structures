@@ -139,9 +139,9 @@ template<class T>
 T& CircularSinglyLinkedList<T>::operator[](unsigned int index)
 {
 	if (size == 0)
-		throw ("CircularSinglyLinkedList is empty");
+		throw  std::exception("CircularSinglyLinkedList is empty");
 	if (index >= size)
-		throw("Out of size");
+		throw std::exception("Out of size");
 	Node* temp = root;
 	for (int i = 0; i < index; i++)
 		temp = temp->next;
@@ -185,7 +185,7 @@ template<class T>
 bool CircularSinglyLinkedList<T>::append(T value, unsigned int index)
 {
 	if (index > size)
-		throw("Out of size");
+		return false;
 	if (index == size)
 		return append(value);
 
@@ -249,7 +249,7 @@ template<class T>
 bool CircularSinglyLinkedList<T>::erase(unsigned int index)
 {
 	if (index >= size)
-		throw("Out of size");
+		return false;
 	Node* temp = root;
 
 
