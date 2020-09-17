@@ -1,11 +1,13 @@
 #include <iostream>
 #include "CircularSinglyLinkedList.h"
+#include "BinarySearchTree.h"
 
 using namespace std;
 
 int main()
 {
 	CircularSinglyLinkedList<int> list;
+	BinarySearchTree<int> tree;
 	int m0 = -1;
 	
 	while (m0 != 0)
@@ -14,6 +16,7 @@ int main()
 		int m1 = -1;
 		system("cls");
 		cout << "1 - CircularSinglyLinkedList\n"
+			<< "2 - BST\n"
 			<< "0 - Exit\n";
 		cin >> m0;
 		switch (m0)
@@ -149,8 +152,57 @@ int main()
 				default:
 					break;
 				}
-
 			}
+			break;
+		case 2:
+			while (m1 != 0)
+			{
+				system("cls");
+				cout << "1 - append value\n"
+					<< "2 - erase\n"
+					<< "3 - show\n"
+					<< "0 - Back\n";
+
+				cin >> m1;
+				int key;
+				int val;
+				std::vector<int> keys;
+				switch (m1)
+				{
+				case 1:
+					system("cls");
+					cout << "input key: ";
+					cin >> key;
+					system("cls");
+					cout << "input value: ";
+					cin >> val;
+					system("cls");
+					cout << tree.append(key, val) << endl;
+					system("pause");
+					break;
+				case 2:
+					system("cls");
+					cout << "input key: ";
+					cin >> key;
+					system("cls");
+					cout << tree.erase(key) << endl;
+					system("pause");
+					break;
+				case 3:
+					system("cls");
+					keys = tree.keys();
+					cout << "Key:Value\n";
+					for (std::vector<int>::iterator it = keys.begin(); it != keys.end(); cout << *it << ":" << tree[*it] << " ", it++);
+					cout << endl;
+					system("pause");
+					break;
+				case 0:
+					break;
+				default:
+					break;
+				}
+			}
+			break;
 		case 0:
 			break;
 		default:
@@ -160,3 +212,4 @@ int main()
 	
 	return 0;
 }
+
