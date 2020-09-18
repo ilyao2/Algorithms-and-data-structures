@@ -24,11 +24,12 @@ private:
 	Node* root;
 
 	bool clear(Node*& root);
-	T& getItemByKey(Node*& root, int key);
+	static T& getItemByKey(Node*& root, int key);
 	bool append(Node*& root, int key, T val);
 	bool erase(Node*& root, Node* parent, int key);
 	void copy(Node* root);
-	void collectKeys(Node* root, std::vector<int>& keys);
+	static void collectKeys(Node* root, std::vector<int>& keys);
+	int getAfterkeyRecurs(Node* root, int key, bool& isFinded);
 
 public:
 	BinarySearchTree();
@@ -41,48 +42,74 @@ public:
 	bool append(int key, T val);
 	bool erase(int key);
 	std::vector<int> keys();
-	T& getAfterkey(int val);
+	T getAfterkey(int val);
 
 	class Iterator
 	{
 	private:
-		Node* cur;
+		int cur;
+		Node* root;
+		std::vector<int> iterKeys;
 
 	public:
-		Iterator(Node* node)
+		Iterator(Node* root)
 		{
-			cur = node;
+			collectKeys(root, iterKeys);
+			cur = 0;
+			if (root == nullptr) cur = -1;
+			this->root = root;
 		}
 
-		//TODO: functions;
 		T& operator++(int)
 		{
-			
+			T& temp = getItemByKey(root, iterKeys[cur]);
+			cur++;
+			return temp;
 		}
 		T& operator--(int)
 		{
-
+			T& temp = getItemByKey(root, iterKeys[cur]);
+			cur--;
+			return temp;
 		}
 		T& operator*()
 		{
-			
+			return getItemByKey(root, iterKeys[cur]);
 		}
 
 
 		bool operator==(Iterator it)
 		{
-			
+			return cur == it.cur;
 		}
 		bool operator!=(Iterator it)
 		{
-			
+			return cur != it.cur;
 		}
 	};
 
-	Iterator begin();
-	Iterator rBegin();
-	Iterator end();
-	Iterator rEnd();
+	Iterator begin()
+	{
+		return Iterator(root);
+	}
+	Iterator rBegin()
+	{
+		Iterator it(root);
+		for (int i = 0; i < size-1; i++, it++);
+		return it;
+	}
+	Iterator end()
+	{
+		Iterator it(root);
+		for (int i = 0; i < size; i++, it++);
+		return it;
+	}
+	Iterator rEnd()
+	{
+		Iterator it(root);
+		it--;
+		return it;
+	}
 
 };
 
@@ -136,6 +163,7 @@ inline bool BinarySearchTree<T>::clear(Node*& root)
 		clear(root->right);
 		delete root;
 		root = nullptr;
+		size--;
 	}
 	return true;
 }
@@ -211,8 +239,6 @@ bool BinarySearchTree<T>::erase(Node*& root, Node* parent, int key)
 
 		if (left == nullptr && right == nullptr)
 		{
-			delete root;
-			root = nullptr;
 		}
 		else if (left == nullptr && right != nullptr)
 		{
@@ -312,4 +338,37 @@ void BinarySearchTree<T>::collectKeys(Node* root, std::vector<int>& keys)
 		keys.push_back(root->key);
 		collectKeys(root->right, keys);
 	}
+}
+
+
+template<class T>
+T BinarySearchTree<T>::getAfterkey(int val)
+{
+	bool isFinded = false;
+	int key = getAfterkeyRecurs(root, val, isFinded);
+	if(!isFinded)
+		throw std::exception("Unknowing key");
+	return operator[](key);
+}
+
+template<class T>
+int BinarySearchTree<T>::getAfterkeyRecurs(Node* root, int key, bool& isFinded)
+{
+	int result = 0;
+	if (root == nullptr)
+	{
+		throw std::exception("Unknowing key");
+	}
+	if (root->left != nullptr)
+		result = getAfterkeyRecurs(root->left, key, isFinded);
+	if (isFinded)
+		return result;
+	if (root->key > key)
+	{
+		isFinded = true;
+		return root->key;
+	}
+	if (root->right != nullptr)
+		result = getAfterkeyRecurs(root->right, key, isFinded);
+	return result;
 }

@@ -161,11 +161,19 @@ int main()
 				cout << "1 - append value\n"
 					<< "2 - erase\n"
 					<< "3 - show\n"
+					<< "4 - getAfterkey\n"
+					<< "5 - size\n"
+					<< "6 - isEmpty\n"
+					<< "7 - keys\n"
+					<< "8 - showByIndex\n"
+					<< "9 - changeByIndex\n"
+					<< "10 - clear\n"
 					<< "0 - Back\n";
 
 				cin >> m1;
 				int key;
 				int val;
+				BinarySearchTree<int>::Iterator it = tree.begin();
 				std::vector<int> keys;
 				switch (m1)
 				{
@@ -194,6 +202,81 @@ int main()
 					cout << "Key:Value\n";
 					for (std::vector<int>::iterator it = keys.begin(); it != keys.end(); cout << *it << ":" << tree[*it] << " ", it++);
 					cout << endl;
+					system("pause");
+					break;
+				case 4:
+					system("cls");
+					cout << "input value: ";
+					cin >> key;
+					system("cls");
+					try
+					{
+						cout << tree.getAfterkey(key);
+					}
+					catch (const std::exception&)
+					{
+						cout << "Bad key";
+					}
+					cout << endl;
+					system("pause");
+					break;
+				case 5: 
+					system("cls");
+					cout << tree.getSize() << endl;
+					system("pause");
+					break;
+				case 6:
+					system("cls");
+					cout << (tree.isEmpty()) ? "true" : "false";
+					cout << endl;
+					system("pause");
+					break;
+				case 7:
+					system("cls");
+					keys = tree.keys();
+					for (std::vector<int>::iterator it = keys.begin(); it != keys.end(); cout << *it << " ", it++);
+					cout << endl;
+					system("pause");
+					break;
+				case 8:
+					system("cls");
+					cout << "input key: ";
+					cin >> key;
+					system("cls");
+					try
+					{
+						cout << tree[key];
+					}
+					catch (const std::exception&)
+					{
+						cout << "Unknowing key";
+					}
+					cout << endl;
+					system("pause");
+					break;
+				case 9:
+					system("cls");
+					cout << "input key: ";
+					cin >> key;
+					system("cls");
+					cout << "input value: ";
+					cin >> val;
+					system("cls");
+					try
+					{
+						tree[key] = val;
+						cout << "true";
+					}
+					catch (const std::exception&)
+					{
+						cout << "Unknowing key";
+					}
+					cout << endl;
+					system("pause");
+					break;
+				case 10:
+					system("cls");
+					cout << tree.clear() << endl;
 					system("pause");
 					break;
 				case 0:
