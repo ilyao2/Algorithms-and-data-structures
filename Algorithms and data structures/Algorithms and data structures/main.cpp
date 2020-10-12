@@ -200,7 +200,8 @@ int main()
 					system("cls");
 					keys = tree.keys();
 					cout << "Key:Value\n";
-					for (std::vector<int>::iterator it = keys.begin(); it != keys.end(); cout << *it << ":" << tree[*it] << " ", it++);
+					//for (std::vector<int>::iterator it = keys.begin(); it != keys.end(); cout << *it << ":" << tree[*it] << " ", it++);
+					tree.show();
 					cout << endl;
 					system("pause");
 					break;

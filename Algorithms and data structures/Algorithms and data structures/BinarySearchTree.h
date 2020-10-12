@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <iostream>
 template <class T>
 class BinarySearchTree
 {
@@ -30,6 +31,7 @@ private:
 	void copy(Node* root);
 	static void collectKeys(Node* root, std::vector<int>& keys);
 	int getAfterkeyRecurs(Node* root, int key, bool& isFinded);
+	void show(Node* root, int level);
 
 public:
 	BinarySearchTree();
@@ -43,6 +45,7 @@ public:
 	bool erase(int key);
 	std::vector<int> keys();
 	T getAfterkey(int val);
+	void show();
 
 	class Iterator
 	{
@@ -351,6 +354,8 @@ T BinarySearchTree<T>::getAfterkey(int val)
 	return operator[](key);
 }
 
+
+
 template<class T>
 int BinarySearchTree<T>::getAfterkeyRecurs(Node* root, int key, bool& isFinded)
 {
@@ -371,4 +376,22 @@ int BinarySearchTree<T>::getAfterkeyRecurs(Node* root, int key, bool& isFinded)
 	if (root->right != nullptr)
 		result = getAfterkeyRecurs(root->right, key, isFinded);
 	return result;
+}
+
+template<class T>
+void BinarySearchTree<T>::show()
+{
+	show(root, 0);
+}
+
+template<class T>
+void BinarySearchTree<T>::show(Node* root, int level)
+{
+	if (root == nullptr)
+		return;
+	show(root->right, level + 1);
+	for (int i = 0; i < 3 * level; i++)
+		std::cout << " ";
+	std::cout << root->key <<":"<< root->item << std::endl;
+	show(root->left, level + 1);
 }
