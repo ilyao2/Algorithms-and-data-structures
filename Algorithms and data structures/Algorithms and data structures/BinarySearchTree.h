@@ -40,11 +40,11 @@ public:
 	int getSize();
 	bool clear();
 	bool isEmpty();
-	T& operator[](int key);
+	const T& operator[](int key);
 	bool append(int key, T val);
 	bool erase(int key);
 	std::vector<int> keys();
-	T getAfterkey(int val);
+	bool getAfterkey(int val);
 	void show();
 
 	class Iterator
@@ -53,6 +53,7 @@ public:
 		int cur;
 		Node* root;
 		std::vector<int> iterKeys;
+		int state = 0;
 
 	public:
 		Iterator(Node* root)
@@ -61,18 +62,23 @@ public:
 			cur = 0;
 			if (root == nullptr) cur = -1;
 			this->root = root;
+			if (root != nullptr) state = 1;
 		}
 
 		T& operator++(int)
 		{
 			T& temp = getItemByKey(root, iterKeys[cur]);
 			cur++;
+			if (cur >= iterKeys.size())
+				state = 0;
 			return temp;
 		}
 		T& operator--(int)
 		{
 			T& temp = getItemByKey(root, iterKeys[cur]);
 			cur--;
+			if (cur < 0)
+				state = 0;
 			return temp;
 		}
 		T& operator*()
@@ -88,6 +94,10 @@ public:
 		bool operator!=(Iterator it)
 		{
 			return cur != it.cur;
+		}
+		int getState()
+		{
+			return state;
 		}
 	};
 
@@ -178,7 +188,7 @@ bool BinarySearchTree<T>::isEmpty()
 }
 
 template<class T>
-T& BinarySearchTree<T>::operator[](int key)
+const T& BinarySearchTree<T>::operator[](int key)
 {
 	return getItemByKey(root, key);
 }
@@ -191,9 +201,8 @@ T& BinarySearchTree<T>::getItemByKey(Node*& root, int key)
 		throw std::exception("Unknowing key");
 	}
 	if (root->key == key) return root->item;
-
-	if (key < root->key) return getItemByKey(root->left, key);
-	if (key > root->key) return getItemByKey(root->right, key);
+	else if (key < root->key) return getItemByKey(root->left, key);
+	else return getItemByKey(root->right, key);
 
 }
 
@@ -343,15 +352,33 @@ void BinarySearchTree<T>::collectKeys(Node* root, std::vector<int>& keys)
 	}
 }
 
-
+//Ёлемент с ключом большим заданного значени€ подн€ть в корень
 template<class T>
-T BinarySearchTree<T>::getAfterkey(int val)
+bool BinarySearchTree<T>::getAfterkey(int val)
 {
 	bool isFinded = false;
 	int key = getAfterkeyRecurs(root, val, isFinded);
-	if(!isFinded)
-		throw std::exception("Unknowing key");
-	return operator[](key);
+	const T& v1 = this->operator[](key);
+	if (!isFinded)
+		return false;
+	std::vector<int> keys1;
+	std::vector<T> values;
+	this->collectKeys(root, keys1);
+
+	for (int i = 0; i < keys1.size(); i++)
+	{
+		int k = keys1.at(i);
+		T v = this->operator[](k);
+		values.push_back(v);
+	}
+
+	clear();
+	append(key, v1);
+
+	for (int i = 0; i < keys1.size(); i++)
+		append(keys1.at(i), values.at(i));
+
+	return true;
 }
 
 
@@ -390,7 +417,7 @@ void BinarySearchTree<T>::show(Node* root, int level)
 	if (root == nullptr)
 		return;
 	show(root->right, level + 1);
-	for (int i = 0; i < 3 * level; i++)
+	for (int i = 0; i < 5 * level; i++)
 		std::cout << " ";
 	std::cout << root->key <<":"<< root->item << std::endl;
 	show(root->left, level + 1);

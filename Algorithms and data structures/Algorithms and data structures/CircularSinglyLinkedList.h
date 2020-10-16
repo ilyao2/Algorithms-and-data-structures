@@ -40,16 +40,31 @@ public:
 	{
 	private:
 		Node* cur;
+		int state = 0;
 	public:
+		Iterator()
+		{
+			state = 0;
+			cur = nullptr;
+		}
 		Iterator(Node* node)
 		{
 			cur = node;
+			if (node != nullptr)
+				state = 1;
+		}
+		Iterator(const Iterator& it)
+		{
+			cur = it.cur;
+			state = it.state;
 		}
 
 		T operator++(int)
 		{
 			T val = cur->item;
 			cur = cur->next;
+			if (cur == nullptr)
+				state = 0;
 			return val;
 		}
 		T operator*()
@@ -65,6 +80,11 @@ public:
 		bool operator!=(Iterator it)
 		{
 			return cur->item != *it;
+		}
+
+		int getState()
+		{
+			return state;
 		}
 	};
 
